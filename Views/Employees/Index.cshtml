@@ -1,0 +1,96 @@
+﻿@model MVC_Thales_Client.Models.EmployeeModel
+
+@{
+    ViewBag.Title = "Thales Test";
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Thales Test</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.0.0.slim.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <div class="container container-fluid">
+        <div class="row col-lg-12">
+            <h2>Search Employees</h2>
+            <hr  class="col-lg-12" style="border-width: 1px; border-style:solid" />
+        </div>
+        
+
+        <div class="row col-lg-12" style="align-content:center">
+            @using (Html.BeginForm("Index", "Employees", FormMethod.Post, new { id = Model.id }))
+            {
+                <div class="row form">
+                    <div class="col col-lg-4 form-group">
+                        <label for="employeedId" class="form-label mt-4" style="font-size:medium">Employee Id</label>
+                        @Html.EditorFor(model => model.id, new { htmlAttributes = new { @class = "form-control  ", @placeholder = "Place any Id for search employee" } })
+                    </div>
+                    <div class="col col-lg-2  form-group mt-4 ">
+                        <button type="submit" class="btn btn-success btn-block " id="btn_Srch" style="margin-top:18%">Search</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <br />
+        <div class="row">
+            @if (Model.lstEmployees != null && Model.message == "Ok")
+            {
+
+                <h4>Employees List</h4>
+                <div style="overflow-y: scroll; overflow-x: hidden; max-height: 240px; min-height:auto ">
+
+                    <table class="table table-hover">
+                        <thead style="position: sticky; text-align: center; top: 0; z-index: 10; background-color: #2c3e50; color:aliceblue">
+                            <tr>
+                                <th scope="col" style="text-align:center">Id Employee</th>
+                                <th scope="col" style="text-align:center">Employee Name</th>
+                                <th scope="col" style="text-align:center">Employee Age</th>
+                                <th scope="col" style="text-align:center">Employee Salary</th>
+                                <th scope="col" style="text-align:center">Employee Annual Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align:center">
+
+                            @foreach (var pr in Model.lstEmployees)
+                            {
+                            <tr class="table-active">
+                                <td>@pr.id</td>
+                                <td>@pr.employee_name</td>
+                                <td>@pr.employee_age</td>
+                                <td>$ @pr.employee_salary</td>
+                                <td>$ @pr.employee_annual_salary</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            }
+            else if (Model.message.Contains("exist"))
+            {
+                <div class="row col-lg-12">
+                    <div class="alert-danger" role="alert">
+                        <h3>@Model.message</h3>
+                    </div>
+                </div>    
+        
+                
+            }
+            
+        </div>
+    </div>
+</body>
+</html>
